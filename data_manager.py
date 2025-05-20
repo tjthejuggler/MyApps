@@ -19,12 +19,15 @@ class DataManager:
             try:
                 with open(self.data_file, 'r') as f:
                     data = json.load(f)
+                    print(f"DEBUG: Loaded data type: {type(data)}, content: {data}")
                     # Handle both old format (dict) and new format (list)
                     if isinstance(data, dict):
                         # Convert old format to new format
                         self.items = [(name, path) for name, path in data.items()]
+                        print(f"DEBUG: Converted dict to list: {self.items}")
                     else:
                         self.items = data
+                        print(f"DEBUG: Using list directly: {self.items}")
             except (json.JSONDecodeError, IOError) as e:
                 print(f"Error loading data: {e}")
                 self.items = []
@@ -32,8 +35,10 @@ class DataManager:
     def _save_data(self) -> None:
         """Save data to the JSON file."""
         try:
+            print(f"DEBUG: Saving data: {self.items}")
             with open(self.data_file, 'w') as f:
                 json.dump(self.items, f, indent=2)
+            print(f"DEBUG: Data saved successfully")
         except IOError as e:
             print(f"Error saving data: {e}")
     
