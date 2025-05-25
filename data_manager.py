@@ -9,7 +9,12 @@ class DataManager:
     Items are stored in order to maintain their position in menus.
     """
     def __init__(self, data_file: str = "script_items.json"):
-        self.data_file = data_file
+        # If data_file is relative, make it relative to the script directory
+        if not os.path.isabs(data_file):
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            self.data_file = os.path.join(script_dir, data_file)
+        else:
+            self.data_file = data_file
         self.items = []  # List of (name, script_path) tuples to maintain order
         self._load_data()
     

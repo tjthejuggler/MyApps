@@ -207,6 +207,7 @@ class TrayApp:
         
         # Initialize data manager
         self.data_manager = DataManager()
+        print(f"DEBUG: TrayApp initialized DataManager, loaded {len(self.data_manager.get_all_items())} items")
         
         # Load and resize the icon for use throughout the application
         self.pixmap = QPixmap(icon_path)
@@ -257,10 +258,12 @@ class TrayApp:
         
         # Add script items
         items = self.data_manager.get_all_items()
+        print(f"DEBUG: update_tray_menu called, found {len(items)} items: {items}")
         for name, script_path in items:
             action = QAction(name, self.tray_menu)
             action.triggered.connect(lambda checked=False, path=script_path: self.run_script(path))
             self.tray_menu.addAction(action)
+            print(f"DEBUG: Added menu item: {name}")
         
         if items:
             self.tray_menu.addSeparator()
